@@ -1,0 +1,26 @@
+# Ignorar ambientes virtuais
+venv/
+ENV/
+env/
+.venv/
+
+# Cache de Python
+__pycache__/
+*.py[cod]
+*.so
+
+# Configurações do VS Code
+.vscode/
+
+# Logs e arquivos temporários
+*.log
+*.tmp
+
+# Arquivos de driver (caso tenha localmente)
+chromedriver
+geckodriver
+
+# Arquivos de IDEs (opcional)
+.idea/
+*.swp
+.DS_Store
