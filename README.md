@@ -56,8 +56,8 @@ Site de origem dos dados: [http://vitibrasil.cnpuv.embrapa.br/index.php](http://
 1. Clone o repositório
 
 ```bash
-git clone https://github.com/https://github.com/rochadennis/FIAP_5MLET_Tech_Challenge_Embrapa.git
-cd FIAP_5MLET_Tech_Challenge_Embrapa
+git clone https://github.com/https://github.com/rochadennis/FIAP_5MLET_tech-challenge-embrapa-api.git
+cd FIAP_5MLET_tech-challenge-embrapa-api
 ```
 
 2. Crie o ambiente virtual
