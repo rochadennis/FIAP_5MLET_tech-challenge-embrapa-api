@@ -1,51 +1,38 @@
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+import requests
+from bs4 import BeautifulSoup
 import logging
 
 logger = logging.getLogger(__name__)
 
 def scrape_data(opt_value):
-    url = "http://vitibrasil.cnpuv.embrapa.br/index.php"
-    options = Options()
-    options.add_argument("--headless")
-    # Executa em modo headless (sem abrir janela do navegador)
+    """
+    Função para extrair dados da tabela da página da Embrapa usando Requests e BeautifulSoup.
+    """
+    url = f"http://vitibrasil.cnpuv.embrapa.br/index.php?opcao={opt_value}"
 
-    driver = None
     try:
-        driver = webdriver.Chrome(options=options)
-        driver.get(url)
-        logger.info(f"Acessando a URL: {url}")
+        logger.info(f"Fazendo requisição para a URL: {url}")
+        response = requests.get(url)
+        response.raise_for_status()  # Garante que erros de HTTP sejam levantados
 
-        # Encontra o botão e clica na aba correspondente
-        btn = driver.find_element(By.XPATH, f"//button[@value='{opt_value}']")
-        logger.info(f"Clicando na aba com value='{opt_value}'")
-        btn.click()
-        
-        # Espera o carregamento da tabela
-        wait = WebDriverWait(driver, 10)
-        #Localizar a tabela com os dados para extração
-        table = wait.until(EC.presence_of_element_located((By.XPATH, "//table[contains(@class, 'tb_base tb_dados')]")))
-        logger.info("Tabela encontrada, extraindo dados...")
+        soup = BeautifulSoup(response.content, "html.parser")
+
+        # Encontrar a tabela com a classe "tb_base tb_dados"
+        table = soup.find("table", class_="tb_base tb_dados")
+        if not table:
+            raise RuntimeError("Tabela não encontrada na página.")
 
         data = []
-        # Extrai dados da tabela
-        rows = table.find_elements(By.TAG_NAME, "tr")
+        rows = table.find_all("tr")
         for row in rows:
-            cols = row.find_elements(By.TAG_NAME, "td")
-            row_data = [col.text.strip() for col in cols]
+            cols = row.find_all("td")
+            row_data = [col.get_text(strip=True) for col in cols]
             if row_data:
                 data.append(row_data)
 
+        logger.info(f"Total de linhas extraídas: {len(data)}")
         return data
 
     except Exception as e:
-        logger.error(f"Erro ao fazer scraping: {str(e)}")
+        logger.error(f"Erro ao extrair dados: {str(e)}")
         raise RuntimeError("Falha ao extrair dados da página Embrapa.")
-    
-    finally:
-        if driver:
-            driver.quit()
-            logger.info("Navegador encerrado.")

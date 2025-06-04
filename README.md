@@ -48,8 +48,9 @@ Site de origem dos dados: [http://vitibrasil.cnpuv.embrapa.br/index.php](http://
 ## Dependências
 
 - **fastapi**
-- **selenium**
+- **beautifulsoup4**
 - **uvicorn**
+- **requests**
 
 ## Como executar localmente
 
@@ -105,7 +106,7 @@ ReDoc: http://localhost:8000/redoc
 ```plaintext
 .  
 ├── main.py          # Código principal da API  
-├── scraper.py       # Funções de scraping com Selenium  
+├── scraper.py       # Funções de scraping com requests e BeautifulSoup  
 ├── requirements.txt # Lista de dependências  
 └── README.md        # Este arquivo  
 ```
@@ -119,9 +120,9 @@ O scraping depende da estrutura HTML do site da Embrapa. Mudanças no site podem
 É necessário ter o ChromeDriver ou GeckoDriver instalado e compatível com a versão do navegador Chrome/Firefox.
 
 ### Referências
-FastAPI
-Selenium
-Embrapa Vitibrasil
+[FastAPI](https://fastapi.tiangolo.com/)
+[Selenium](https://fastapi.tiangolo.com/)
+[Embrapa Vitibrasil](http://vitibrasil.cnpuv.embrapa.br/index.php)
 
 ### Autor 👨‍💻
 Desenvolvido por: Dennis Rocha. [(Linkedin)](https://www.linkedin.com/in/dennissrocha/)
